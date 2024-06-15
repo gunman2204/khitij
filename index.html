@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <style>
+        * {
+            background-color: orange;
+            /* color:white; */
+        }
+
+        nav {
+            /* display: flex;
+            justify-content: center; */
+            position: sticky;
+            top: 0;
+
+        }
+
+        #gamename {
+            font-size: 40px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            align-self: center;
+        }
+
+        .main {
+            height: 40vw;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .container {
+            /* margin: 50px 0; */
+            width: 50%;
+            height: 30vw;
+            /* border: 2px solid black; */
+            display: grid;
+            grid-template-areas: "a b c";
+            justify-content: center;
+        }
+
+        .cell {
+            margin: 0;
+            padding: 0;
+            width: 10vw;
+            /* border: 2px solid rgb(4, 4, 161); */
+            border: 2px solid yellow;
+            border-radius: 10px;
+            align-items: center;
+        }
+
+        .button {
+            width: 50%;
+            border: 2px solid black;
+            justify-self: center;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+        }
+
+        .buttons {
+            padding: 10px
+        }
+
+        .btn {
+            margin: 15px;
+        }
+
+        #exitbtn {
+            padding: 0 20px;
+        }
+
+        .box {
+            display: inline-flex;
+        }
+
+        .btn-info {
+            height: 100px;
+            width: 300px;
+            font-size: larger;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .btn-outline-primary {
+            width: 120px;
+            height: 50px;
+            margin: 0;
+            margin-top: 40px;
+            /* text-wrap: wrap; */
+            text-align: center;
+        }
+
+        .cell:hover {
+            border: 5px solid yellow;
+            transform: scale(1.1);
+            transition-duration: 0.5s;
+        }
+
+        .active {
+            /* border: 5px solid green; */
+            color: red;
+            transform: scale(1.1);
+            transform: rotate;
+            transition-duration: 1s;
+            z-index: 0;
+        }
+
+        #messagedisplay {
+            font-size: 30px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            text-align: center;
+            /* border:2px solid blue; */
+
+        }
+
+        #leaderboard {
+            font-size: 25px;
+        }
+
+        #leaderboard-container {
+            height: 150px;
+            border: 2px solid black;
+            text-align: center;
+            font-size: 35px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            position: relative;
+        }
+
+        .btn-secondary {
+            width: 15%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            /* margin-top: 30px; */
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #changenamebtn {
+            text-align: center;
+
+        }
+
+        .lead {
+            font-size: larger;
+            animation: leading 1s infinite ease-out
+        }
+
+        @keyframes leading {
+            from {
+                opacity: 0.5;
+                border: 2px solid black;
+            }
+
+            to {
+                opacity: 1;
+                /* background-color: red; */
+                border: 5px solid red;
+            }
+        }
+    </style>
+
+    <nav class="flex">
+        <div class="navbarelement"><img src="gameicon.png" height="80px"></div>
+        <div class="navbarelement" id="gamename">tic tac toe</div>
+    </nav>
+    <div class="main flex">
+        <div class="box">
+            <button type="button" class="btn btn-info" id="player1">Player 1</button>
+            <!-- <div  id="changenamebtn">
+                <button type="button" class="btn btn-outline-primary" >Change Name</button>
+            </div> -->
+            <div class="container ">
+                <div class="cell flex" id="cell1"></div>
+                <div class="cell flex" id="cell2"></div>
+                <div class="cell flex" id="cell3"></div>
+                <div class="cell flex" id="cell4"></div>
+                <div class="cell flex" id="cell5"></div>
+                <div class="cell flex" id="cell6"></div>
+                <div class="cell flex" id="cell7"></div>
+                <div class="cell flex" id="cell8"></div>
+                <div class="cell flex" id="cell9"></div>
+
+            </div>
+            <button type="button" id="player2" class="btn btn-info">Player 2</button>
+        </div>
+        <div>
+        </div>
+        <div class="flex buttons">
+            <button type="button" id="resetbtn" onclick="cleared()" class="btn btn-success">Reset</button>
+            <button type="button" id="exitbtn" class="btn btn-danger" onclick="closetab()">Exit</button>
+            <!-- <button type="button" class="btn btn-secondary">Reset</button>
+            <button type="button" class="btn btn-secondary">Secondary</button> -->
+        </div>
+    </div>
+    <div class="flex">
+        <button type="button" class="btn btn-primary" id="changenamebtn" onclick="display()">Change Player's
+            Name</button>
+        <button type="button" class="btn btn-secondary hide" id="changename">
+            Name<br>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"></span>
+                </div>
+                <input type="text" id="entername1" class="form-control" aria-label="Small"
+                    aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"></span>
+                </div>
+                <input type="text" id="entername2" class="form-control" aria-label="Small"
+                    aria-describedby="inputGroup-sizing-sm">
+            </div>
+        </button>
+    </div>
+    <p class="flex"><button type="button" class="btn btn-primary" id="save" onclick="savename()">Save</button></p>
+
+    <!-- <div id="circle"><img src="pink-circle.png" height="50px" width="50px"> </div>
+    <div><img src="Programming-Delete-Sign-icon.png" id="cross" height="60px" width="60px"></div> -->
+    <div id="messagedisplay"></div>
+    <div id="leaderboard-container">
+        <h2>Leaderboard</h2>
+        <p id="leadplayer"></p>
+        <div id="leaderboard">
+            <table class="table">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col">Rank</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">W/L/D</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody id="body">
+                    <tr class="table-success" id="p1_info">
+                        <th scope="row">1</th>
+                        <td id="p1name"></td>
+                        <td>142/3/475</td>
+                        <td id="p1score"></td>
+                    </tr>
+                    <tr class="table-danger" id="p2_info">
+                        <th scope="row">2</th>
+                        <td id="p2name"></td>
+                        <td>140/6/480</td>
+                        <td id="p2score"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function cleared() {
+            if (confirm("Do you really want to Restart the game")) {
+                location.reload(true);
+            }
+            return;
+        }
+        function closetab() {
+            window.close();
+        }
+
+        const p1 = document.getElementById("player1")
+        const p2 = document.getElementById("player2")
+        const c1 = document.getElementById("cell1")
+        const c2 = document.getElementById("cell2")
+        const c3 = document.getElementById("cell3")
+        const c4 = document.getElementById("cell4")
+        const c5 = document.getElementById("cell5")
+        const c6 = document.getElementById("cell6")
+        const c7 = document.getElementById("cell7")
+        const c8 = document.getElementById("cell8")
+        const c9 = document.getElementById("cell9")
+        playerturn();
+
+        //code to change name
+        function display() {
+            document.getElementById("changename").classList.remove("hide")
+            document.getElementById("changenamebtn").classList.add("hide")
+        }
+        function savename() {
+            let str1 = document.getElementById("entername1").value;
+            let str2 = document.getElementById("entername2").value;
+            localStorage.setItem("players1", str1)
+            localStorage.setItem("players2", str2)
+            displaysavednames();
+        }
+        function displaysavednames() {
+            let savedName1 = localStorage.getItem('players1');
+            let savedName2 = localStorage.getItem('players2');
+            document.getElementById("player1").innerText = (savedName1) ? savedName1 : "Player ";
+            document.getElementById("player2").innerText = savedName2 ? savedName2 : "Player 2";
+            document.getElementById("p1name").innerText = savedName1;
+            document.getElementById("p2name").innerText = savedName2;
+            document.getElementById("changename").classList.add("hide")
+            document.getElementById("changenamebtn").classList.remove("hide")
+            removenames();
+        }
+        function removenames() {
+            localStorage.removeItem('player1')
+            localStorage.removeItem('player2')
+        }
+        let s1=document.getElementById("p1name")
+        let s2=document.getElementById("p2name")
+                if(s1.innerText ===""){
+                    s1.innerText= "Player 1"
+                }
+                if(s2.innerText ===""){
+                    s2.innerText= "Player 2"
+                }
+
+        let cellon = document.getElementsByClassName('cell')
+        // cellon[0].onclick=cellon[0].innerHTML=`<img src="pink-circle.png" height="50px" width="50px">`
+        for (let i = 0; i < cellon.length && cellon[i].innerHTML === ''; i++) {
+            // if (cellon[i].innerHTML !== '') {break;}
+
+            {
+                cellon[i].onclick = function activate() {
+                    if (cellon[i].innerHTML === '' && (check()!=1)) {
+
+                        if (p1.classList.contains("active")) {
+                            cellon[i].innerHTML = `<img src="pink-circle.png" height="50px" width="50px">`
+                            playerturn();
+                        }
+                        else if (p2.classList.contains("active")) {
+                            cellon[i].innerHTML = `<img src="Programming-Delete-Sign-icon.png" id="cross" height="60px" width="60px">`
+                            playerturn();
+                        }
+                    }
+                }
+            }
+
+        }
+        let i = 0;
+        let length = 0;
+        let keyname;
+        const cell = document.querySelectorAll('cell');
+        function check() {
+            let winmessage;
+            if (c1.innerHTML !== "" && c1.innerHTML === c4.innerHTML && c4.innerHTML === c7.innerHTML) {
+                winmessage = document.createElement('p')
+                winmessage.innerText = (c1.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";
+                document.getElementById("messagedisplay").appendChild(winmessage);
+
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                score();
+                return 1;
+            }
+            else if (c2.innerHTML !== "" && c2.innerHTML === c5.innerHTML && c5.innerHTML === c8.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c2.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";;
+                document.getElementById("messagedisplay").appendChild(winmessage);
+
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+            else if (c3.innerHTML !== "" && c3.innerHTML === c6.innerHTML && c6.innerHTML === c9.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c3.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";;
+                document.getElementById("messagedisplay").appendChild(winmessage);
+
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+            else if (c1.innerHTML !== "" && c1.innerHTML === c2.innerHTML && c2.innerHTML === c3.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c1.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";;
+                document.getElementById("messagedisplay").appendChild(winmessage);
+
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+            else if (c4.innerHTML !== "" && c5.innerHTML === c4.innerHTML && c4.innerHTML === c6.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c4.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";
+                document.getElementById("messagedisplay").appendChild(winmessage);
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+            else if (c7.innerHTML !== "" && c7.innerHTML === c8.innerHTML && c8.innerHTML === c9.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c7.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";
+                document.getElementById("messagedisplay").appendChild(winmessage);
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+            else if (c1.innerHTML !== "" && c1.innerHTML === c5.innerHTML && c5.innerHTML === c9.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c1.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";;
+                document.getElementById("messagedisplay").appendChild(winmessage);
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+            else if (c3.innerHTML !== "" && c3.innerHTML === c5.innerHTML && c5.innerHTML === c7.innerHTML) {
+                let winmessage = document.createElement('p')
+                winmessage.innerText = (c3.innerHTML === `<img src="pink-circle.png" height="50px" width="50px">`) ? "Player 1 Wins" : "Player 2 Wins";;
+                document.getElementById("messagedisplay").appendChild(winmessage);
+                keyname = "win" + localStorage.length;
+                localStorage.setItem(keyname, winmessage.innerText);
+
+                setTimeout(() => {
+                    location.reload();
+                }, 5000)
+                return 1;
+            }
+        }
+
+        // alternating between player's turn
+        function playerturn() {
+            check();
+
+            if (!p1.classList.contains("active") && !p2.classList.contains("active")) {
+                p1.classList.add("active");
+            }
+            else if (p1.classList.contains("active")) {
+                p1.classList.remove("active")
+                p2.classList.add("active")
+            }
+            else {
+                p2.classList.remove("active")
+                p1.classList.add("active")
+            }
+
+        }
+        //Maintaining Leaderboard
+        var str = "";
+        var j = 0;
+        var k = 0;
+        let leadplayer = document.createElement('p');
+
+        for (let i = 0; i < localStorage.length; i++) {
+            str += localStorage.getItem('win' + (i)) + "\n";
+            if (localStorage.getItem('win' + (i)) === "Player 1 Wins") {
+                j += 10;
+            }
+            else if (localStorage.getItem('win' + (i)) === "Player 2 Wins") {
+                k += 10;
+            }
+        }
+        localStorage.setItem("p1score",j)
+        localStorage.setItem("p2score",k)
+        document.getElementById("p1score").innerText = localStorage.getItem("p1score");
+        document.getElementById("p2score").innerText = localStorage.getItem("p2score");
+        if (j > k) {
+            leadplayer.innerText = "Player 1 is leading";
+            document.getElementById("p1_info").classList.add("lead")
+        }
+        else if (k > j) {
+            leadplayer.innerText = "Player 2 is leading";
+            document.getElementById("p2_info").classList.add("lead")
+        }
+        document.getElementById("leadplayer").appendChild(leadplayer)
+        console.log(j, k);
+        console.log(str);
+        const leaderbrd = document.getElementById("leaderboard")
+        // leaderbrd.innerText = str;
+        // for(let i=0;i)
+
+    </script>
+
+</body>
+
+</html>
